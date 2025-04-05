@@ -4,6 +4,8 @@ import React, { useCallback } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Card, IconButton, Text } from 'react-native-paper';
 import useNotes from '../hooks/useNotes';
+import { auth } from '../services/auth';
+
 
 export default function NotesListScreen() {
   const router = useRouter();
@@ -11,7 +13,15 @@ export default function NotesListScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      loadNotes();
+      const checkAuth = async () => {
+        const token = await auth.getToken();
+        if (!token) {
+          router.replace('/login');
+        } else {
+          loadNotes();
+        }
+      };
+      checkAuth();
     }, [loadNotes])
   );
 
