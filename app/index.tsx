@@ -115,6 +115,29 @@ export default function NotesListScreen() {
       >
         <MaterialIcons name="add" size={24} color="white" />
       </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.logoutFab}
+        onPress={() => {
+          Alert.alert(
+            'Cerrar sesión',
+            '¿Estás seguro de que quieres cerrar sesión?',
+            [
+              { text: 'Cancelar', style: 'cancel' },
+              {
+                text: 'Cerrar sesión',
+                style: 'destructive',
+                onPress: async () => {
+                  await auth.logout();
+                  router.replace('/login');
+                },
+              },
+            ]
+          );
+        }}
+      >
+        <MaterialIcons name="logout" size={24} color="white" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -182,4 +205,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     elevation: 4,
   },
+  logoutFab: {
+    position: 'absolute',
+    left: 20,
+    bottom: 20,
+    backgroundColor: '#d32f2f',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },  
 });

@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { auth } from '../services/auth';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
@@ -22,7 +24,7 @@ export default function LoginScreen() {
 
     try {
       await auth.login(email, password);
-      router.replace('/'); // o donde quieras dirigir luego del login
+      router.replace('/');
     } catch (error) {
       Alert.alert('Error al iniciar sesión', 'Verifica tus credenciales');
     }
@@ -30,7 +32,6 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
       <TextInput
         placeholder="Correo electrónico"
         style={styles.input}
@@ -39,29 +40,66 @@ export default function LoginScreen() {
         autoCapitalize="none"
         keyboardType="email-address"
       />
-      <TextInput
-        placeholder="Contraseña"
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Ingresar</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push('/register')}>
-        <Text style={styles.linkText}>¿No tienes cuenta? Regístrate aquí</Text>
-      </TouchableOpacity>
+      <View style={styles.centeredSection}>
+        <Text style={styles.title}>Login</Text>
+
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Ingresar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.push('/register')}>
+          <Text style={styles.linkText}>¿No tienes cuenta? Regístrate aquí</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.passwordContainer}>
+        <TextInput
+          placeholder="Contraseña"
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity
+          style={styles.eyeIcon}
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          <Ionicons name={showPassword ? 'eye' : 'eye-off'} size={24} color="gray" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  input: { borderWidth: 1, borderColor: '#ccc', padding: 12, marginBottom: 15, borderRadius: 8 },
-  button: { backgroundColor: '#6200ee', padding: 14, borderRadius: 8, alignItems: 'center' },
+  container: { flex: 1, padding: 20, justifyContent: 'space-between' },
+  centeredSection: { alignItems: 'center' },
+  title: { fontSize: 28, fontWeight: 'bold', marginVertical: 20 },
+  input: {
+    borderWidth: 1,
+    borderColor: '#999',
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: '#f9f9f9'
+  },
+  button: {
+    backgroundColor: '#6200ee',
+    padding: 14,
+    borderRadius: 8,
+    marginTop: 20,
+    width: '80%',
+    alignItems: 'center'
+  },
   buttonText: { color: '#fff', fontWeight: 'bold' },
-  linkText: { marginTop: 20, textAlign: 'center', color: '#6200ee' }
+  linkText: { marginTop: 20, color: '#6200ee', textAlign: 'center' },
+  passwordContainer: {
+    position: 'relative',
+    justifyContent: 'flex-end'
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+    bottom: 12
+  }
 });

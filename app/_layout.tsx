@@ -8,7 +8,6 @@ import 'react-native-reanimated';
 import CreateNoteScreen from './create-note';
 import ListNotesScreen from '.';
 import { Stack } from 'expo-router';
-import LogoutButton from '../components/LogoutButton';
 
 const App = () => {
   const colorScheme = useColorScheme();
@@ -33,7 +32,6 @@ const App = () => {
         options={
           {
             title: 'Mis Notas',
-            headerRight: () => <LogoutButton />,
           }
         }
       />

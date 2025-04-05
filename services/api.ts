@@ -1,7 +1,10 @@
 // app/services/api.ts
 import { auth } from './auth';
 
-const API_BASE_URL = 'https://logging-captured-weight-master.trycloudflare.com/api';
+/**
+ * LA API_BASE_URL IGUAL VA EN "SERVICES/AUTH.TS"
+ */
+const API_BASE_URL = 'https://identifies-salon-compared-little.trycloudflare.com/api';
 
 interface Tarea {
   id: number;

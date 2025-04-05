@@ -2,7 +2,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'https://logging-captured-weight-master.trycloudflare.com/api';
+const API_BASE_URL = 'https://identifies-salon-compared-little.trycloudflare.com/api';
 
 export const auth = {
   login: async (username: string, password: string): Promise<string> => {
